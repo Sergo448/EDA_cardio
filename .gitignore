@@ -3,3 +3,4 @@ venv
 /src/raw/cardio_train.csv.zip
 /src/__pycache__
 /src/process/__pycache__
+/src/notebooks/.ipynb_checkpoints
