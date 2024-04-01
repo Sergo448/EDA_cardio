@@ -2,8 +2,6 @@ import os
 import json
 
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 import seaborn as sns
 
 from tabulate import tabulate
@@ -35,10 +33,17 @@ def get_data(path: str, debug: bool) -> pd.DataFrame:
     return data
 
 def get_info_and_save_to_txt(data: pd.DataFrame, result_path: str, debug: bool) -> None:
-    """_summary_
+    """Собираем инфо в тектовый файл.
 
-    Args:
-        data (pd.DataFrame): _description_
+    :param:
+        :data: Датасет;
+        :type data: pd.DataFrame;
+        
+        :result_path: Path to results;
+        :type result_path: str, not None;
+    
+    :return:
+        None
     """
     result_name: str = 'df.info.txt'
     if not debug:
@@ -58,10 +63,20 @@ def get_info_and_save_to_txt(data: pd.DataFrame, result_path: str, debug: bool) 
     
     
 def describe_and_save_to_json(data: pd.DataFrame, result_path: str, debug: bool) -> None:
-    """_summary_
+    """Собираем иофно и сохораняем в текстовый файл.
 
-    Args:
-        data (pd.DataFrame): _description_
+    :param:
+        :data: Датасет;
+        :type data: pd.DataFrame;
+        
+        :result_path: Path to results;
+        :type result_path: str, not None;
+        
+        :debug: Переменная для дебагинга;
+        :type debug: bool, not None;
+    
+    :return:
+        None
     """
     result_name: str = 'df.describe.json'
     if not debug:
@@ -80,11 +95,17 @@ def describe_and_save_to_json(data: pd.DataFrame, result_path: str, debug: bool)
     return None
 
 def count_null_values(data: pd.DataFrame, result_path: str) -> None:
-    """_summary_
+    """Считаем кол-во пустых ячеек для каждого поля и сохраняем в JSON.
 
-    Args:
-        data (pd.DataFrame): _description_
-        result_path (str): _description_
+    :param:
+        :data: Датасет;
+        :type data: pd.DataFrame;
+        
+        :result_path: Path to results;
+        :type result_path: str, not None;
+    
+    :return:
+        None
     """
     local_res: dict = dict()
     result_name: str = 'null_not_null.json'
@@ -116,11 +137,17 @@ def count_null_values(data: pd.DataFrame, result_path: str) -> None:
     return None
 
 def print_values_in_df(data: pd.DataFrame, result_path: str) -> None:
-    """_summary_
+    """Считаем кол-во уникальных значений для каждой переменной и сохраняем в JSON.
 
-    Args:
-        data (pd.DataFrame): _description_
-        result_path (str): _description_
+    :param:
+        :data: Датасет;
+        :type data: pd.DataFrame;
+        
+        :result_path: Path to results;
+        :type result_path: str, not None;
+    
+    :return:
+        None
     """
     
     local_res: dict = dict()

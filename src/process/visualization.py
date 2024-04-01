@@ -1,8 +1,6 @@
 import os
-import json
 
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -11,7 +9,18 @@ from tabulate import tabulate
 sns.set()
 
 def height_hist_bins_20(data: pd.DataFrame, result_path: str) -> None:
+    """Строим столбчатую диаграмму и сохраняем. Для поля height
+
+    :param:
+        :data: Датасет;
+        :type data: pd.DataFrame;
+        
+        :result_path: Path to results;
+        :type result_path: str, not None;
     
+    :return:
+        None
+    """
     name: str = 'height_hist_bins_20.png'
     path: str = os.path.join(result_path, name)
     
@@ -26,7 +35,18 @@ def height_hist_bins_20(data: pd.DataFrame, result_path: str) -> None:
     return None
 
 def weight_hist_bins_20(data: pd.DataFrame, result_path: str) -> None:
+    """Строим столбчатую диаграмму и сохраняем. Для поля weight
+
+    :param:
+        :data: Датасет;
+        :type data: pd.DataFrame;
+        
+        :result_path: Path to results;
+        :type result_path: str, not None;
     
+    :return:
+        None
+    """
     name: str = 'weight_hist_bins_20.png'
     path: str = os.path.join(result_path, name)
     
@@ -39,41 +59,64 @@ def weight_hist_bins_20(data: pd.DataFrame, result_path: str) -> None:
     print(f'$  Saving {name} to {path}')
     return None
         
-def visualize_plots(data: pd.DataFrame, result_path: str, plot: str) -> None:
-    """_summary_
-
-    Args:
-        data (pd.DataFrame): _description_
-        result_path (str): _description_
+def print_pivot(data: pd.DataFrame) -> None:
+    """Строим сводную таблицу и выводим на экран.
+    
+    :param:
+        :data: Датасет;
+        :type data: pd.DataFrame;
+    
+    :return:
+        None
     """
-   
-        
-    if plot == 'height_hist_bins_20':
-        
-        name: str = f'{plot}.png'
-        path: str = os.path.join(result_path, name)
-        if os.path.exists(path):
-            os.remove(path)
-        
-        print(f'$ Building plot for {name}')
-        image = data['height'].hist(bins=20, legend=name)
-
-        print(f'$  Saving {name} to {path}')
-        image.get_figure().savefig(path)
-        
-    elif plot == 'weight_hist_bins_20':
-        
-        name: str = f'{plot}.png'
-        path: str = os.path.join(result_path, name)
-        if os.path.exists(path):
-            os.remove(path)
-            
-        print(f'$ Building plot for {name}')
-        image = data['weight'].hist(bins=20, legend=name)
-
-        print(f'$  Saving {name} to {path}')
-        image.get_figure().savefig(path)
-    else:
-        raise ValueError(f'plot param must be in []')
+    # values - признаки, по которым вычисляются значения функции aggfunc
+    # index - признаки, по которым выполняется группировка
     
+    pivot = data.pivot_table(values=['age', 'cardio'], index=['smoke', 'alco'], aggfunc='mean')
+    print(tabulate(pivot, headers = 'keys', tablefmt = 'psql', showindex=False))
+    return None
+
+def print_aclo_smoke(data: pd.DataFrame) -> None:
+    """Строим сводную таблицу и выводим на экран.
     
+    :param:
+        :data: Датасет;
+        :type data: pd.DataFrame;
+    
+    :return:
+        None
+    """
+    crosstab = pd.crosstab(data['smoke'], data['alco'])
+    print(tabulate(crosstab, headers = 'keys', tablefmt = 'psql', showindex=False))
+    return None
+
+def mean_smoke_age(data: pd.DataFrame) -> None:
+    """Строим сводную таблицу и выводим на экран.
+    
+    :param:
+        :data: Датасет;
+        :type data: pd.DataFrame;
+    
+    :return:
+        None
+    """
+    print('$ Вычислим средний возраст людей, склонных к курению')
+    res = data[data['smoke'] == 1]['age'].mean()
+    print(f'$ result: {res}')
+    return None
+
+
+def mean_smoke_age_and_cardio(data: pd.DataFrame) -> None:
+    """Строим сводную таблицу и выводим на экран.
+    
+    :param:
+        :data: Датасет;
+        :type data: pd.DataFrame;
+    
+    :return:
+        None
+    """
+    print('$ Вычислим средний возраст людей, склонных к курению')
+    res = data[(data['smoke'] == 1) & (data['cardio'] == 1)]['age'].mean()
+    print(f'$ result: {res}')
+    return None
